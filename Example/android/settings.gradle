@@ -1,0 +1,5 @@
+rootProject.name = 'Example'
+include ':react-native-google-pay'
+project(':react-native-google-pay').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-pay/android')
+
+include ':app'

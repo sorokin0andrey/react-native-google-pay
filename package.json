@@ -1,0 +1,28 @@
+
+{
+  "name": "react-native-google-pay",
+  "version": "1.0.1",
+  "description": "React Native bridge for Google Pay",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "demo": "cd ./Example && yarn && react-native run-android"
+  },
+  "keywords": [
+    "react-native",
+    "google-pay",
+    "android-pay",
+    "payments",
+    "pay"
+  ],
+  "author": "Andrey Sorokin <sorokin0andrey@gmail.com> (https://github.com/sorokin0andrey)",
+  "license": "MIT",
+  "nativePackage": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/busfor/react-native-google-pay.git"
+  },
+  "peerDependencies": {
+    "react-native": "^0.41.2"
+  }
+}
