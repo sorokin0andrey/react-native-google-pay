@@ -95,8 +95,8 @@ public class RNGooglePayModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void isReadyToPay(ReadableArray cardNetworks, final Promise promise) {
-    final JSONObject isReadyToPayJson = PaymentsUtil.getIsReadyToPayRequest(cardNetworks.toArrayList());
+  public void isReadyToPay(ReadableArray allowedCardNetworks, ReadableArray allowedCardAuthMethods, final Promise promise) {
+    final JSONObject isReadyToPayJson = PaymentsUtil.getIsReadyToPayRequest(allowedCardNetworks.toArrayList(), allowedCardAuthMethods.toArrayList());
     if (isReadyToPayJson == null) {
       promise.reject("NOT_READY_TO_PAY", "Not ready to pay");
       return;

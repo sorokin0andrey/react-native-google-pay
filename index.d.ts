@@ -1,6 +1,8 @@
 type EnvironmentType = number
 
-export type CardNetworkType = "AMEX" | "DISCOVER" | "JCB" | "MASTERCARD"| "VISA"
+export type AllowedCardNetworkType = "AMEX" | "DISCOVER" | "JCB" | "MASTERCARD"| "VISA"
+
+export type AllowedCardAuthMethodsType = "PAN_ONLY" | "CRYPTOGRAM_3DS"
 
 export interface RequestDataType {
   cardPaymentMethod: {
@@ -9,7 +11,8 @@ export interface RequestDataType {
       gateway: string
       gatewayMerchantId: string
     }
-    cardNetworks: CardNetworkType[]
+    allowedCardNetworks: AllowedCardNetworkType[]
+    allowedCardAuthMethods: AllowedCardAuthMethodsType[]
   }
   transaction: {
     totalPrice: string
@@ -23,7 +26,7 @@ declare class GooglePay {
   static ENVIRONMENT_TEST: EnvironmentType
   static ENVIRONMENT_PRODUCTION: EnvironmentType
   static setEnvironment: (environment: EnvironmentType) => void
-  static isReadyToPay: (cardNetworks: CardNetworkType[]) => Promise<boolean>
+  static isReadyToPay: (allowedCardNetworks: AllowedCardNetworkType[], allowedCardAuthMethods: AllowedCardAuthMethodsType[]) => Promise<boolean>
   static requestPayment: (requestData: RequestDataType) => Promise<string>
 }
 

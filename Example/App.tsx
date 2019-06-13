@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, Platform } from 'react-native'
-import { GooglePay, RequestDataType, CardNetworkType } from 'react-native-google-pay'
+import { GooglePay, RequestDataType, AllowedCardNetworkType, AllowedCardAuthMethodsType } from 'react-native-google-pay'
 
-const cardNetworks: CardNetworkType[] = ['VISA', 'MASTERCARD']
+const allowedCardNetworks: AllowedCardNetworkType[] = ['VISA', 'MASTERCARD']
+const allowedCardAuthMethods: AllowedCardAuthMethodsType[] = ['PAN_ONLY', 'CRYPTOGRAM_3DS']
 
 const requestData: RequestDataType = {
   cardPaymentMethod: {
@@ -11,7 +12,8 @@ const requestData: RequestDataType = {
       gateway: 'example',
       gatewayMerchantId: 'exampleGatewayMerchantId',
     },
-    cardNetworks,
+    allowedCardNetworks,
+    allowedCardAuthMethods,
   },
   transaction: {
     totalPrice: '123',
@@ -32,7 +34,7 @@ export default class App extends Component {
 
   payWithGooglePay = () => {
     // Check if Google Pay is available
-    GooglePay.isReadyToPay(cardNetworks)
+    GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods)
       .then(() => {
         // Request payment token
         GooglePay.requestPayment(requestData)

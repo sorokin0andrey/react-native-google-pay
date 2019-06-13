@@ -18,21 +18,13 @@ public class PaymentsUtil {
     return new JSONObject().put("apiVersion", 2).put("apiVersionMinor", 0);
   }
 
-  private static JSONArray getAllowedCardNetworks(ArrayList cardNetworks) {
-    return new JSONArray(cardNetworks);
-  }
-
-  private static JSONArray getAllowedCardAuthMethods() {
-    return new JSONArray().put("PAN_ONLY");
-  }
-
-  private static JSONObject getBaseCardPaymentMethod(ArrayList cardNetworks) throws JSONException {
+  private static JSONObject getBaseCardPaymentMethod(ArrayList allowedCardNetworks, ArrayList allowedCardAuthMethods) throws JSONException {
     JSONObject cardPaymentMethod = new JSONObject();
     cardPaymentMethod.put("type", "CARD");
 
     JSONObject parameters = new JSONObject();
-    parameters.put("allowedAuthMethods", getAllowedCardAuthMethods());
-    parameters.put("allowedCardNetworks", getAllowedCardNetworks(cardNetworks));
+    parameters.put("allowedAuthMethods", new JSONArray(allowedCardAuthMethods));
+    parameters.put("allowedCardNetworks", new JSONArray(allowedCardNetworks));
 
     cardPaymentMethod.put("parameters", parameters);
 
@@ -40,17 +32,15 @@ public class PaymentsUtil {
   }
 
   public static PaymentsClient createPaymentsClient(int environment, Activity activity) {
-    Wallet.WalletOptions walletOptions =
-        new Wallet.WalletOptions.Builder().setEnvironment(environment).build();
+    Wallet.WalletOptions walletOptions = new Wallet.WalletOptions.Builder().setEnvironment(environment).build();
     return Wallet.getPaymentsClient(activity, walletOptions);
   }
 
-  public static JSONObject getIsReadyToPayRequest(ArrayList cardNetworks) {
+  public static JSONObject getIsReadyToPayRequest(ArrayList allowedCardNetworks, ArrayList allowedCardAuthMethods) {
     try {
       JSONObject isReadyToPayRequest = getBaseRequest();
-      isReadyToPayRequest.put(
-          "allowedPaymentMethods", new JSONArray().put(getBaseCardPaymentMethod(cardNetworks)));
-
+      JSONArray allowedPaymentMethods = new JSONArray().put(getBaseCardPaymentMethod(allowedCardNetworks, allowedCardAuthMethods));
+      isReadyToPayRequest.put("allowedPaymentMethods", allowedPaymentMethods);
       return isReadyToPayRequest;
     } catch (JSONException e) {
       return null;
@@ -82,7 +72,9 @@ public class PaymentsUtil {
   }
   
   private static JSONObject getCardPaymentMethod(ReadableMap cardPaymentMethodData) throws JSONException {
-    JSONObject cardPaymentMethod = getBaseCardPaymentMethod(cardPaymentMethodData.getArray("cardNetworks").toArrayList());
+    ArrayList allowedCardNetworks = cardPaymentMethodData.getArray("allowedCardNetworks").toArrayList();
+    ArrayList allowedCardAuthMethods = cardPaymentMethodData.getArray("allowedCardAuthMethods").toArrayList();
+    JSONObject cardPaymentMethod = getBaseCardPaymentMethod(allowedCardNetworks, allowedCardAuthMethods);
     cardPaymentMethod.put("tokenizationSpecification", getGatewayTokenizationSpecification(cardPaymentMethodData.getMap("tokenizationSpecification")));
 
     return cardPaymentMethod;
