@@ -35,7 +35,7 @@ Accept Payments with Google Pay for React Native apps.
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
   	```
-      compile project(':react-native-google-pay')
+      implementation project(':react-native-google-pay')
   	```
 
 #### Enable Android Pay in your Manifest
@@ -52,6 +52,8 @@ To enable Google Pay in your app, you need to add the following Google Pay API m
 ```javascript
 import { GooglePay } from 'react-native-google-pay';
 
+const cardNetworks = ['VISA', 'MASTERCARD'];
+
 const requestData = {
   cardPaymentMethod: {
     tokenizationSpecification: {
@@ -67,10 +69,10 @@ const requestData = {
     currencyCode: 'USD',
   },
   merchantName: 'Example Merchant',
-}
+};
 
 // Set the environment before the payment request
-GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST)
+GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST);
 
 // Check if Google Pay is available
 GooglePay.isReadyToPay(cardNetworks)
@@ -78,9 +80,9 @@ GooglePay.isReadyToPay(cardNetworks)
     // Request payment token
     GooglePay.requestPayment(requestData)
       .then((token: string) => {
-	    // Send a token to your payment gateway
-	  })
-  })
+	      // Send a token to your payment gateway
+	    });
+  });
 ```
 
 ## Demo
