@@ -83,8 +83,10 @@ GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods)
     GooglePay.requestPayment(requestData)
       .then((token: string) => {
 	      // Send a token to your payment gateway
-	    });
-  });
+	    })
+      .catch((error) => console.log(error.code, error.message));
+  })
+  .catch((error) => console.log(error.code, error.message));
 ```
 
 ## Demo
