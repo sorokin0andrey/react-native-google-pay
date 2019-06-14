@@ -49,7 +49,7 @@ export default class App extends Component {
     Alert.alert('Success', `token: ${token}`)
   }
 
-  handleError = (error: any) => Alert.alert('isReadyToPay', `${error.code}\n${error.message}`)
+  handleError = (error: any) => Alert.alert('Error', `${error.code}\n${error.message}`)
 
   render() {
     return (
