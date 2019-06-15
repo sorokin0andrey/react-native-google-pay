@@ -78,15 +78,16 @@ GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST);
 
 // Check if Google Pay is available
 GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods)
-  .then(() => {
-    // Request payment token
-    GooglePay.requestPayment(requestData)
-      .then((token: string) => {
-	      // Send a token to your payment gateway
-	    })
-      .catch((error) => console.log(error.code, error.message));
+  .then((ready) => {
+    if (ready) {
+      // Request payment token
+      GooglePay.requestPayment(requestData)
+        .then((token: string) => {
+          // Send a token to your payment gateway
+        })
+        .catch((error) => console.log(error.code, error.message));
+    }
   })
-  .catch((error) => console.log(error.code, error.message));
 ```
 
 ## Demo

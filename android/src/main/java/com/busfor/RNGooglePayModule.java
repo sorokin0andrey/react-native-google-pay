@@ -98,12 +98,14 @@ public class RNGooglePayModule extends ReactContextBaseJavaModule {
   public void isReadyToPay(ReadableArray allowedCardNetworks, ReadableArray allowedCardAuthMethods, final Promise promise) {
     final JSONObject isReadyToPayJson = PaymentsUtil.getIsReadyToPayRequest(allowedCardNetworks.toArrayList(), allowedCardAuthMethods.toArrayList());
     if (isReadyToPayJson == null) {
-      promise.reject("NOT_READY_TO_PAY", "Not ready to pay");
+      Log.w(TAG, "[GooglePay] isReadyToPayJson == null");
+      promise.resolve(false);
       return;
     }
     IsReadyToPayRequest request = IsReadyToPayRequest.fromJson(isReadyToPayJson.toString());
     if (request == null) {
-      promise.reject("NOT_READY_TO_PAY", "Not ready to pay");
+      Log.w(TAG, "[GooglePay] IsReadyToPayRequest == null");
+      promise.resolve(false);
       return;
     }
 
@@ -116,13 +118,14 @@ public class RNGooglePayModule extends ReactContextBaseJavaModule {
           public void onComplete(@NonNull Task<Boolean> task) {
             if (task.isSuccessful()) {
               if (task.getResult()) {
-                promise.resolve(null);
+                promise.resolve(true);
               } else {
-                promise.reject("NOT_AVAILABLE", "Not available");
+                Log.w(TAG, "[GooglePay] Not available");
+                promise.resolve(false);
               }
             } else {
               Log.w(TAG, "[GooglePay] isReadyToPay failed");
-              promise.reject("IS_READY_TO_PAY_FAILED", "isReadyToPay failed");
+              promise.resolve(false);
             }
           }
         });

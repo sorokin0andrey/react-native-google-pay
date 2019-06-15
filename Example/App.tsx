@@ -35,13 +35,14 @@ export default class App extends Component {
   payWithGooglePay = () => {
     // Check if Google Pay is available
     GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods)
-      .then(() => {
-        // Request payment token
-        GooglePay.requestPayment(requestData)
-          .then(this.handleSuccess)
-          .catch(this.handleError)
+      .then((ready) => {
+        if (ready) {
+          // Request payment token
+          GooglePay.requestPayment(requestData)
+            .then(this.handleSuccess)
+            .catch(this.handleError)
+        }
       })
-      .catch(this.handleError)
   }
 
   handleSuccess = (token: string) => {
