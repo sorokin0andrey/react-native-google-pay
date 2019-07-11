@@ -66,6 +66,10 @@ public class PaymentsUtil {
       put("parameters", new JSONObject(){{
         put("gateway", tokenizationSpecification.getString("gateway"));
         put("gatewayMerchantId", tokenizationSpecification.getString("gatewayMerchantId"));
+        if (tokenizationSpecification.hasKey("stripe")) {
+          put("stripe:publishableKey", tokenizationSpecification.getMap("stripe").getString("publishableKey"));
+          put("stripe:version", tokenizationSpecification.getMap("stripe").getString("version"));
+        }
         }
       });
     }};
