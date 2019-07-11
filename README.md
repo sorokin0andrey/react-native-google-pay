@@ -59,6 +59,14 @@ const requestData = {
   cardPaymentMethod: {
     tokenizationSpecification: {
       type: 'PAYMENT_GATEWAY',
+      // stripe (see Example):
+      gateway: 'stripe',
+      gatewayMerchantId: '',
+      stripe: {
+        publishableKey: 'pk_test_TYooMQauvdEDq54NiTphI7jx',
+        version: '2018-11-08',
+      },
+      // other:
       gateway: 'example',
       gatewayMerchantId: 'exampleGatewayMerchantId',
     },
