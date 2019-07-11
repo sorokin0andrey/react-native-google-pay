@@ -23,6 +23,28 @@ const requestData: RequestDataType = {
   merchantName: 'Example Merchant',
 }
 
+const stripeRequestData: RequestDataType = {
+  cardPaymentMethod: {
+    tokenizationSpecification: {
+      type: 'PAYMENT_GATEWAY',
+      gateway: 'stripe',
+      gatewayMerchantId: '',
+      stripe: {
+        publishableKey: 'pk_test_TYooMQauvdEDq54NiTphI7jx',
+        version: '2018-11-08',
+      },
+    },
+    allowedCardNetworks,
+    allowedCardAuthMethods,
+  },
+  transaction: {
+    totalPrice: '123',
+    totalPriceStatus: 'FINAL',
+    currencyCode: 'RUB',
+  },
+  merchantName: 'Example Merchant',
+}
+
 export default class App extends Component {
 
   componentDidMount() {
@@ -45,6 +67,19 @@ export default class App extends Component {
       })
   }
 
+  payWithStripeGooglePay = () => {
+    // Check if Google Pay is available
+    GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods)
+      .then((ready) => {
+        if (ready) {
+          // Request payment token
+          GooglePay.requestPayment(stripeRequestData)
+            .then(this.handleSuccess)
+            .catch(this.handleError)
+        }
+      })
+  }
+
   handleSuccess = (token: string) => {
     // Send a token to your payment gateway
     Alert.alert('Success', `token: ${token}`)
@@ -58,6 +93,9 @@ export default class App extends Component {
         <Text style={styles.welcome}>Welcome to react-native-google-pay!</Text>
         <TouchableOpacity style={styles.button} onPress={this.payWithGooglePay}>
           <Text style={styles.buttonText}>Buy with Google Pay</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, styles.stripe]} onPress={this.payWithStripeGooglePay}>
+          <Text style={styles.buttonText}>Buy with Stripe Google Pay</Text>
         </TouchableOpacity>
       </View>
     );
@@ -74,7 +112,7 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 18,
     color: '#222',
-    marginBottom: 24,
+    marginBottom: 16,
   },
   button: {
     backgroundColor: '#34a853',
@@ -82,6 +120,10 @@ const styles = StyleSheet.create({
     height: 56,
     paddingHorizontal: 24,
     justifyContent: 'center',
+    marginVertical: 8,
+  },
+  stripe: {
+    backgroundColor: '#556cd6',
   },
   buttonText: {
     color: '#ffffff',

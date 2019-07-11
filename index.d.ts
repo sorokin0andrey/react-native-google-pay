@@ -10,6 +10,10 @@ export interface RequestDataType {
       type: string
       gateway: string
       gatewayMerchantId: string
+      stripe?: {
+        publishableKey: string
+        version: string
+      }
     }
     allowedCardNetworks: AllowedCardNetworkType[]
     allowedCardAuthMethods: AllowedCardAuthMethodsType[]
