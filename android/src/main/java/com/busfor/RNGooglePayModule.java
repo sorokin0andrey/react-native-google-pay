@@ -91,11 +91,21 @@ public class RNGooglePayModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void setEnvironment(int environment) {
-    mPaymentsClient = PaymentsUtil.createPaymentsClient(environment, getCurrentActivity());
+    final Activity activity = getCurrentActivity();
+    if (activity == null) {
+      return;
+    }
+    mPaymentsClient = PaymentsUtil.createPaymentsClient(environment, activity);
   }
 
   @ReactMethod
   public void isReadyToPay(ReadableArray allowedCardNetworks, ReadableArray allowedCardAuthMethods, final Promise promise) {
+    final Activity activity = getCurrentActivity();
+    if (activity == null) {
+      Log.w(TAG, "[GooglePay] activity is null");
+      promise.resolve(false);
+      return;
+    }
     final JSONObject isReadyToPayJson = PaymentsUtil.getIsReadyToPayRequest(allowedCardNetworks.toArrayList(), allowedCardAuthMethods.toArrayList());
     if (isReadyToPayJson == null) {
       Log.w(TAG, "[GooglePay] isReadyToPayJson == null");
@@ -112,7 +122,7 @@ public class RNGooglePayModule extends ReactContextBaseJavaModule {
     // The call to isReadyToPay is asynchronous and returns a Task. We need to provide an
     // OnCompleteListener to be triggered when the result of the call is known.
     Task<Boolean> task = mPaymentsClient.isReadyToPay(request);
-    task.addOnCompleteListener(getCurrentActivity(),
+    task.addOnCompleteListener(activity,
         new OnCompleteListener<Boolean>() {
           @Override
           public void onComplete(@NonNull Task<Boolean> task) {
@@ -133,6 +143,12 @@ public class RNGooglePayModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void requestPayment(ReadableMap requestData, final Promise promise) {
+    final Activity activity = getCurrentActivity();
+    if (activity == null) {
+      Log.w(TAG, "[GooglePay] activity is null");
+      promise.reject("NO_ACTIVITY", "activity is null");
+      return;
+    }
     JSONObject paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(requestData);
     if (paymentDataRequestJson == null) {
       promise.reject("PAYMENT_DATA_REQUEST_JSON", "paymentDataRequestJson is null");
@@ -143,7 +159,7 @@ public class RNGooglePayModule extends ReactContextBaseJavaModule {
     
     PaymentDataRequest request = PaymentDataRequest.fromJson(paymentDataRequestJson.toString());
     if (request != null) {
-      AutoResolveHelper.resolveTask(mPaymentsClient.loadPaymentData(request), getCurrentActivity(), LOAD_PAYMENT_DATA_REQUEST_CODE);
+      AutoResolveHelper.resolveTask(mPaymentsClient.loadPaymentData(request), activity, LOAD_PAYMENT_DATA_REQUEST_CODE);
     }
   }
 
