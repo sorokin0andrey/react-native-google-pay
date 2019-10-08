@@ -12,6 +12,13 @@ Accept Payments with Google Pay for React Native apps.
 
 ---
 
+## Versions
+
+| 1.x              | 2.x              |
+| ---------------- | -------------    |
+| Android support  | AndroidX support  |
+
+
 ## Getting started
 
 `$ yarn add react-native-google-pay`
