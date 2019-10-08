@@ -1,7 +1,7 @@
 
 {
   "name": "react-native-google-pay",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "React Native bridge for Google Pay",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,6 @@
     "url": "https://github.com/busfor/react-native-google-pay.git"
   },
   "peerDependencies": {
-    "react-native": ">=0.41.2"
+    "react-native": ">=0.60.0"
   }
 }

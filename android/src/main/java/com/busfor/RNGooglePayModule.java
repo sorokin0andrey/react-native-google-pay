@@ -24,7 +24,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONException;
