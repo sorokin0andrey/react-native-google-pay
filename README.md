@@ -16,6 +16,14 @@ Accept Payments with Google Pay for React Native apps.
 
 `$ yarn add react-native-google-pay`
 
+## Linking 
+
+### >= 0.60
+
+Autolinking will just do the job.
+
+### < 0.60
+
 ### Mostly automatic installation
 
 `$ react-native link react-native-google-pay`
@@ -38,7 +46,7 @@ Accept Payments with Google Pay for React Native apps.
       implementation project(':react-native-google-pay')
   	```
 
-#### Enable Android Pay in your Manifest
+### Enable Android Pay in your Manifest
 
 To enable Google Pay in your app, you need to add the following Google Pay API meta-data element to the `<application>` element of your project's AndroidManifest.xml file.
 
