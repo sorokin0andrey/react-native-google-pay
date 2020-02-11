@@ -10,12 +10,16 @@ export interface RequestDataType {
   cardPaymentMethod: {
     tokenizationSpecification: {
       type: tokenizationSpecificationType
+      /** only with type: PAYMENT_GATEWAY */
       gateway?: string
+      /** only with type: PAYMENT_GATEWAY */
       gatewayMerchantId?: string
+      /** only with gateway: stripe */
       stripe?: {
         publishableKey: string
         version: string
       }
+      /** only with type: DIRECT */
       publicKey?: string
     }
     allowedCardNetworks: AllowedCardNetworkType[]
