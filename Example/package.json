@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "setup": "rm -rf ./node_modules && yarn",
     "start": "react-native start",
     "test": "jest",
     "postinstall": "node ../scripts/examples_postinstall.js"

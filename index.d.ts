@@ -4,16 +4,20 @@ export type AllowedCardNetworkType = 'AMEX' | 'DISCOVER' | 'JCB' | 'MASTERCARD' 
 
 export type AllowedCardAuthMethodsType = 'PAN_ONLY' | 'CRYPTOGRAM_3DS'
 
+export type tokenizationSpecificationType = 'PAYMENT_GATEWAY' | 'DIRECT'
+
 export interface RequestDataType {
   cardPaymentMethod: {
     tokenizationSpecification: {
-      type: string
-      gateway: string
-      gatewayMerchantId: string
+      type: tokenizationSpecificationType
+      gateway?: string
+      gatewayMerchantId?: string
       stripe?: {
         publishableKey: string
         version: string
       }
+      /** only for DIRECT */
+      publicKey?: string
     }
     allowedCardNetworks: AllowedCardNetworkType[]
     allowedCardAuthMethods: AllowedCardAuthMethodsType[]

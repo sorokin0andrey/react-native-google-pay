@@ -1,18 +1,22 @@
 package com.busfor;
 
 import android.app.Activity;
+
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.Wallet;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import com.facebook.react.bridge.ReadableMap;
 
 public class PaymentsUtil {
 
-  private PaymentsUtil() {}
+  private PaymentsUtil() {
+  }
 
   private static JSONObject getBaseRequest() throws JSONException {
     return new JSONObject().put("apiVersion", 2).put("apiVersionMinor", 0);
@@ -60,26 +64,36 @@ public class PaymentsUtil {
     return new JSONObject().put("merchantName", merchantName);
   }
 
-  private static JSONObject getGatewayTokenizationSpecification(final ReadableMap tokenizationSpecification) throws JSONException {
-    return new JSONObject(){{
+  private static JSONObject getTokenizationSpecification(final ReadableMap tokenizationSpecification) throws JSONException {
+    return new JSONObject() {{
       put("type", tokenizationSpecification.getString("type"));
-      put("parameters", new JSONObject(){{
-        put("gateway", tokenizationSpecification.getString("gateway"));
-        put("gatewayMerchantId", tokenizationSpecification.getString("gatewayMerchantId"));
-        if (tokenizationSpecification.hasKey("stripe")) {
-          put("stripe:publishableKey", tokenizationSpecification.getMap("stripe").getString("publishableKey"));
-          put("stripe:version", tokenizationSpecification.getMap("stripe").getString("version"));
-        }
+      put("parameters", new JSONObject() {
+        {
+          if (tokenizationSpecification.hasKey("gateway")) {
+            put("gateway", tokenizationSpecification.getString("gateway"));
+          }
+          if (tokenizationSpecification.hasKey("gatewayMerchantId")) {
+            put("gatewayMerchantId", tokenizationSpecification.getString("gatewayMerchantId"));
+          }
+          if (tokenizationSpecification.hasKey("publicKey")) {
+            put("protocolVersion", "ECv2");
+            put("publicKey", tokenizationSpecification.getString("publicKey"));
+          }
+          if (tokenizationSpecification.hasKey("stripe")) {
+            final ReadableMap stripe = tokenizationSpecification.getMap("stripe");
+            put("stripe:publishableKey", stripe.getString("publishableKey"));
+            put("stripe:version", stripe.getString("version"));
+          }
         }
       });
     }};
   }
-  
+
   private static JSONObject getCardPaymentMethod(ReadableMap cardPaymentMethodData) throws JSONException {
     ArrayList allowedCardNetworks = cardPaymentMethodData.getArray("allowedCardNetworks").toArrayList();
     ArrayList allowedCardAuthMethods = cardPaymentMethodData.getArray("allowedCardAuthMethods").toArrayList();
     JSONObject cardPaymentMethod = getBaseCardPaymentMethod(allowedCardNetworks, allowedCardAuthMethods);
-    cardPaymentMethod.put("tokenizationSpecification", getGatewayTokenizationSpecification(cardPaymentMethodData.getMap("tokenizationSpecification")));
+    cardPaymentMethod.put("tokenizationSpecification", getTokenizationSpecification(cardPaymentMethodData.getMap("tokenizationSpecification")));
 
     return cardPaymentMethod;
   }
