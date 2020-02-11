@@ -46,7 +46,6 @@ const stripeRequestData: RequestDataType = {
 }
 
 export default class App extends Component {
-
   componentDidMount() {
     // Set the environment before the payment request
     if (Platform.OS === 'android') {
@@ -56,28 +55,26 @@ export default class App extends Component {
 
   payWithGooglePay = () => {
     // Check if Google Pay is available
-    GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods)
-      .then((ready) => {
-        if (ready) {
-          // Request payment token
-          GooglePay.requestPayment(requestData)
-            .then(this.handleSuccess)
-            .catch(this.handleError)
-        }
-      })
+    GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods).then((ready) => {
+      if (ready) {
+        // Request payment token
+        GooglePay.requestPayment(requestData)
+          .then(this.handleSuccess)
+          .catch(this.handleError)
+      }
+    })
   }
 
   payWithStripeGooglePay = () => {
     // Check if Google Pay is available
-    GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods)
-      .then((ready) => {
-        if (ready) {
-          // Request payment token
-          GooglePay.requestPayment(stripeRequestData)
-            .then(this.handleSuccess)
-            .catch(this.handleError)
-        }
-      })
+    GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods).then((ready) => {
+      if (ready) {
+        // Request payment token
+        GooglePay.requestPayment(stripeRequestData)
+          .then(this.handleSuccess)
+          .catch(this.handleError)
+      }
+    })
   }
 
   handleSuccess = (token: string) => {
@@ -98,7 +95,7 @@ export default class App extends Component {
           <Text style={styles.buttonText}>Buy with Stripe Google Pay</Text>
         </TouchableOpacity>
       </View>
-    );
+    )
   }
 }
 
@@ -129,4 +126,4 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 18,
   },
-});
+})

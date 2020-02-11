@@ -1,7 +1,6 @@
+import { NativeModules, Platform } from 'react-native'
 
-import { NativeModules, Platform } from 'react-native';
-
-const { RNGooglePay } = NativeModules;
+const { RNGooglePay } = NativeModules
 
 const throwError = () => {
   throw new Error(`Google Pay is for Android only, use Platform.OS === 'android'`)
@@ -13,8 +12,8 @@ const mockIOS = {
   setEnvironment: throwError,
   isReadyToPay: throwError,
   requestPayment: throwError,
-};
+}
 
 const GooglePay = Platform.OS === 'android' ? RNGooglePay : mockIOS
 
-export { GooglePay };
+export { GooglePay }
