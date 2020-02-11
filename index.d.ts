@@ -16,7 +16,6 @@ export interface RequestDataType {
         publishableKey: string
         version: string
       }
-      /** only for DIRECT */
       publicKey?: string
     }
     allowedCardNetworks: AllowedCardNetworkType[]
