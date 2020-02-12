@@ -25,8 +25,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import androidx.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,7 +52,7 @@ public class RNGooglePayModule extends ReactContextBaseJavaModule {
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
       switch (requestCode) {
-          // value passed in AutoResolveHelper
+        // value passed in AutoResolveHelper
         case LOAD_PAYMENT_DATA_REQUEST_CODE:
           switch (resultCode) {
             case Activity.RESULT_OK:
@@ -156,7 +158,7 @@ public class RNGooglePayModule extends ReactContextBaseJavaModule {
     }
 
     this.requestPaymentPromise = promise;
-    
+
     PaymentDataRequest request = PaymentDataRequest.fromJson(paymentDataRequestJson.toString());
     if (request != null) {
       AutoResolveHelper.resolveTask(mPaymentsClient.loadPaymentData(request), activity, LOAD_PAYMENT_DATA_REQUEST_CODE);
