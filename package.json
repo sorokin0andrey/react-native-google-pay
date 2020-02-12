@@ -1,11 +1,11 @@
 {
   "name": "react-native-google-pay",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "React Native bridge for Google Pay",
   "main": "index.js",
   "scripts": {
     "prettier:fix": "prettier --write '**/*.{js,ts,tsx}'",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "version": "auto-changelog -p && git add CHANGELOG.md",
     "demo": "cd ./Example && yarn && react-native run-android"
   },
   "keywords": [
@@ -26,6 +26,7 @@
     "react-native": ">=0.60.0"
   },
   "devDependencies": {
+    "auto-changelog": "^1.16.2",
     "prettier": "^1.19.1"
   }
 }
