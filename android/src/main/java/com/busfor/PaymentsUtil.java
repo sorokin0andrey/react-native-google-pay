@@ -53,9 +53,25 @@ public class PaymentsUtil {
 
   private static JSONObject getTransactionInfo(ReadableMap transaction) throws JSONException {
     JSONObject transactionInfo = new JSONObject();
-    transactionInfo.put("totalPrice", transaction.getString("totalPrice"));
-    transactionInfo.put("totalPriceStatus", transaction.getString("totalPriceStatus"));
     transactionInfo.put("currencyCode", transaction.getString("currencyCode"));
+    transactionInfo.put("totalPriceStatus", transaction.getString("totalPriceStatus"));
+
+    if (transaction.hasKey("checkoutOption")) {
+      transactionInfo.put("checkoutOption", transaction.getString("checkoutOption"));
+    }
+    if (transaction.hasKey("countryCode")) {
+      transactionInfo.put("countryCode", transaction.getString("countryCode"));
+    }
+    if (transaction.hasKey("totalPrice")) {
+      transactionInfo.put("totalPrice", transaction.getString("totalPrice"));
+    }
+    if (transaction.hasKey("totalPriceLabel")) {
+      transactionInfo.put("totalPriceLabel", transaction.getString("totalPriceLabel"));
+    }
+    if (transaction.hasKey("transactionId")) {
+      transactionInfo.put("transactionId", transaction.getString("transactionId"));
+    }
+
 
     return transactionInfo;
   }
@@ -93,6 +109,19 @@ public class PaymentsUtil {
     ArrayList allowedCardNetworks = cardPaymentMethodData.getArray("allowedCardNetworks").toArrayList();
     ArrayList allowedCardAuthMethods = cardPaymentMethodData.getArray("allowedCardAuthMethods").toArrayList();
     JSONObject cardPaymentMethod = getBaseCardPaymentMethod(allowedCardNetworks, allowedCardAuthMethods);
+    JSONObject cardPaymentParameters = cardPaymentMethod.getJSONObject("parameters");
+
+    if (cardPaymentMethodData.hasKey("allowCreditCards")) {
+      cardPaymentParameters.put("allowCreditCards", cardPaymentMethodData.getBoolean("allowCreditCards"));
+    }
+    if (cardPaymentMethodData.hasKey("allowPrepaidCards")) {
+      cardPaymentParameters.put("allowPrepaidCards", cardPaymentMethodData.getBoolean("allowPrepaidCards"));
+    }
+    if (cardPaymentMethodData.hasKey("assuranceDetailsRequired")) {
+      cardPaymentParameters.put("assuranceDetailsRequired", cardPaymentMethodData.getBoolean("assuranceDetailsRequired"));
+    }
+
+    cardPaymentMethod.put("parameters", cardPaymentParameters);
     cardPaymentMethod.put("tokenizationSpecification", getTokenizationSpecification(cardPaymentMethodData.getMap("tokenizationSpecification")));
 
     return cardPaymentMethod;
