@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Alert, Platform } from 'react-native'
+import React, { Component, ReactNode } from 'react'
+import { Platform, Alert, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { GooglePay, RequestDataType, AllowedCardNetworkType, AllowedCardAuthMethodsType } from 'react-native-google-pay'
 
 const allowedCardNetworks: AllowedCardNetworkType[] = ['VISA', 'MASTERCARD']
@@ -9,18 +9,18 @@ const gatewayRequestData: RequestDataType = {
   cardPaymentMethod: {
     tokenizationSpecification: {
       type: 'PAYMENT_GATEWAY',
-      gateway: 'example',
-      gatewayMerchantId: 'exampleGatewayMerchantId',
+      gateway: 'mpgs',
+      gatewayMerchantId: 'MOBIMATTERLT',
     },
     allowedCardNetworks,
     allowedCardAuthMethods,
   },
   transaction: {
-    totalPrice: '123',
+    totalPrice: '1',
     totalPriceStatus: 'FINAL',
-    currencyCode: 'RUB',
+    currencyCode: 'USD',
   },
-  merchantName: 'Example Merchant',
+  merchantName: 'MobiMatter',
 }
 
 const directRequestData: RequestDataType = {
@@ -66,7 +66,7 @@ export default class App extends Component {
   componentDidMount() {
     // Set the environment before the payment request
     if (Platform.OS === 'android') {
-      GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST)
+      GooglePay.setEnvironment(GooglePay.ENVIRONMENT_PRODUCTION)
     }
   }
 
