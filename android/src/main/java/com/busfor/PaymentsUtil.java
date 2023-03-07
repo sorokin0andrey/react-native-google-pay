@@ -75,6 +75,18 @@ public class PaymentsUtil {
           if (tokenizationSpecification.hasKey("gatewayMerchantId")) {
             put("gatewayMerchantId", tokenizationSpecification.getString("gatewayMerchantId"));
           }
+          if (tokenizationSpecification.hasKey("braintree:merchantId")) {
+            put("braintree:merchantId", tokenizationSpecification.getString("braintree:merchantId"));
+          }
+          if (tokenizationSpecification.hasKey("braintree:sdkVersion")) {
+            put("braintree:sdkVersion", tokenizationSpecification.getString("braintree:sdkVersion"));
+          }
+          if (tokenizationSpecification.hasKey("braintree:apiVersion")) {
+            put("braintree:apiVersion", tokenizationSpecification.getString("braintree:apiVersion"));
+          }
+          if (tokenizationSpecification.hasKey("braintree:clientKey")) {
+            put("braintree:clientKey", tokenizationSpecification.getString("braintree:clientKey"));
+          }
           if (tokenizationSpecification.hasKey("publicKey")) {
             put("protocolVersion", "ECv2");
             put("publicKey", tokenizationSpecification.getString("publicKey"));
