@@ -56,6 +56,7 @@ public class PaymentsUtil {
     transactionInfo.put("totalPrice", transaction.getString("totalPrice"));
     transactionInfo.put("totalPriceStatus", transaction.getString("totalPriceStatus"));
     transactionInfo.put("currencyCode", transaction.getString("currencyCode"));
+    transactionInfo.put("countryCode", transaction.getString("countryCode"));
 
     return transactionInfo;
   }
