@@ -29,6 +29,7 @@ export interface RequestDataType {
     totalPrice: string
     totalPriceStatus: string
     currencyCode: string
+    countryCode?: string
   }
   merchantName: string
 }
