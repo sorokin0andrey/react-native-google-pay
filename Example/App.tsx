@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Alert, Platform } from 'react-native'
+import React, { Component, ReactNode } from 'react'
+import { Platform, Alert, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { GooglePay, RequestDataType, AllowedCardNetworkType, AllowedCardAuthMethodsType } from 'react-native-google-pay'
 
 const allowedCardNetworks: AllowedCardNetworkType[] = ['VISA', 'MASTERCARD']
