@@ -9,18 +9,18 @@ const gatewayRequestData: RequestDataType = {
   cardPaymentMethod: {
     tokenizationSpecification: {
       type: 'PAYMENT_GATEWAY',
-      gateway: 'mpgs',
-      gatewayMerchantId: 'MOBIMATTERLT',
+      gateway: 'example',
+      gatewayMerchantId: 'exampleGatewayMerchantId',
     },
     allowedCardNetworks,
     allowedCardAuthMethods,
   },
   transaction: {
-    totalPrice: '1',
+    totalPrice: '123',
     totalPriceStatus: 'FINAL',
-    currencyCode: 'USD',
+    currencyCode: 'RUB',
   },
-  merchantName: 'MobiMatter',
+  merchantName: 'Example Merchant',
 }
 
 const directRequestData: RequestDataType = {
@@ -66,7 +66,7 @@ export default class App extends Component {
   componentDidMount() {
     // Set the environment before the payment request
     if (Platform.OS === 'android') {
-      GooglePay.setEnvironment(GooglePay.ENVIRONMENT_PRODUCTION)
+      GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST)
     }
   }
 
