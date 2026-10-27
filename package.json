@@ -1,32 +1,52 @@
 {
   "name": "react-native-google-pay",
-  "version": "2.1.0",
-  "description": "React Native bridge for Google Pay",
+  "version": "3.0.0",
+  "description": "React Native Turbo Module for Google Pay",
   "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "src",
+    "android",
+    "react-native.config.js"
+  ],
   "scripts": {
-    "prettier:fix": "prettier --write '**/*.{js,ts,tsx}'",
-    "version": "auto-changelog -p && git add CHANGELOG.md",
-    "demo": "cd ./Example && yarn && react-native run-android"
+    "demo": "npm --prefix Example install && npm --prefix Example run android",
+    "prepublishOnly": "node scripts/check-release.js"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "keywords": [
     "react-native",
     "google-pay",
     "android-pay",
     "payments",
-    "pay"
+    "pay",
+    "turbo-module"
   ],
   "author": "Andrey Sorokin <sorokin0andrey@gmail.com> (https://github.com/sorokin0andrey)",
   "license": "MIT",
-  "nativePackage": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/busfor/react-native-google-pay.git"
+    "url": "https://github.com/sorokin0andrey/react-native-google-pay.git"
+  },
+  "dependencies": {
+    "@types/googlepay": "0.7.13"
   },
   "peerDependencies": {
-    "react-native": ">=0.60.0"
+    "react": "*",
+    "react-native": ">=0.76.0"
   },
-  "devDependencies": {
-    "auto-changelog": "^1.16.2",
-    "prettier": "^1.19.1"
+  "packageManager": "yarn@1.22.22",
+  "codegenConfig": {
+    "name": "RNGooglePaySpec",
+    "type": "modules",
+    "jsSrcsDir": "src",
+    "android": {
+      "javaPackageName": "com.rngooglepay"
+    }
   }
 }

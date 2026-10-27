@@ -1,2 +1,15 @@
+example/
 Example/
 emulator.gif
+preview.gif
+preview.mp4
+simulator.gif
+coverage/
+.github/
+package-lock.json
+CHANGELOG.md
+scripts/examples_postinstall.js
+android/build
+android/build/**
+android/.gradle
+android/.gradle/**

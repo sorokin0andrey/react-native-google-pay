@@ -1,0 +1,53 @@
+name: Publish
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/check-release.js
+
+  publish:
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Use an npm release that supports trusted publishing
+        run: |
+          npm install -g npm@11
+          version="$(npm --version)"
+          echo "npm $version"
+          node -e "const [major, minor] = process.argv[1].split('.').map(Number); if (major < 11 || (major === 11 && minor < 15)) { console.error('npm >= 11.15.0 is required for npm stage publish'); process.exit(1) }" "$version"
+      - name: Check the release tag
+        if: github.event_name == 'release'
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          tag="${{ github.event.release.tag_name }}"
+          if [ "$tag" != "$version" ]; then
+            echo "Release tag '$tag' must match package.json version '$version'."
+            exit 1
+          fi
+      - run: npm stage publish --access public --provenance

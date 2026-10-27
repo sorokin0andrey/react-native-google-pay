@@ -1,40 +1,35 @@
-
-buildscript {
-    repositories {
-        jcenter()
-        google()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
-    }
-}
-
-apply plugin: 'com.android.library'
+apply plugin: "com.android.library"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    namespace "com.rngooglepay"
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
     }
-    lintOptions {
-        abortOnError false
+
+    sourceSets {
+        main {
+            manifest.srcFile "src/main/AndroidManifest.xml"
+        }
     }
 }
 
 repositories {
-    mavenCentral()
     google()
+    mavenCentral()
 }
 
 dependencies {
-    implementation 'com.facebook.react:react-native:+'
-    implementation 'com.google.android.gms:play-services-wallet:16.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation "com.facebook.react:react-android"
+    implementation "com.google.android.gms:play-services-wallet:20.0.0"
 }
-  
+
+react {
+    jsRootDir = file("../src/")
+    libraryName = "RNGooglePaySpec"
+    codegenJavaPackageName = "com.rngooglepay"
+}
